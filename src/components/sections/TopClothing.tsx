@@ -71,6 +71,7 @@ export default function TopClothing() {
             {list.map((p) => (
               <ProductCard
                 key={p.id}
+                id={p.id}
                 name={p.name}
                 price={p.price}
                 note={p.note}

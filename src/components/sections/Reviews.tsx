@@ -1,3 +1,4 @@
+import Avatar from "../ui/Avatar";
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Reveal from "../ui/Reveal";
@@ -77,9 +78,7 @@ export default function Reviews() {
                 {r.text}
               </p>
               <div className="mt-6 flex items-center gap-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-[10px] font-medium text-white">
-                  {r.name.split(" ").map((w) => w[0]).join("")}
-                </span>
+                <Avatar name={r.name} />
                 <div>
                   <p className="text-[12px] font-medium">{r.name}</p>
                   <p className="text-[10px] text-ink/50">KYRO customer</p>

@@ -1,11 +1,44 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-const cols = [
-  { title: "Shop", links: ["New arrivals", "Trending", "Collection", "Sale"] },
-  { title: "Help", links: ["Delivery", "Returns", "Size guide", "Contact"] },
-  { title: "Follow", links: ["Instagram", "TikTok", "X", "Pinterest"] },
+type L = { label: string; to?: string; href?: string };
+
+const cols: { title: string; links: L[] }[] = [
+  {
+    title: "Shop",
+    links: [
+      { label: "All products", to: "/shop" },
+      { label: "Trending", to: "/trending" },
+      { label: "Lookbook", to: "/lookbook" },
+    ],
+  },
+  {
+    title: "Help",
+    links: [
+      { label: "About", to: "/about" },
+      { label: "Contact", to: "/contact" },
+      { label: "Delivery and returns", to: "/delivery" },
+    ],
+  },
+  {
+    title: "Account",
+    links: [
+      { label: "Sign in", to: "/account" },
+      { label: "Create account", to: "/account" },
+    ],
+  },
+  {
+    title: "Follow",
+    links: [
+      { label: "Instagram", href: "#" },
+      { label: "TikTok", href: "#" },
+      { label: "X", href: "#" },
+    ],
+  },
 ];
+
+const cls = "text-sm text-white/80 transition-colors hover:text-lime";
 
 export default function Footer() {
   const ref = useRef<HTMLElement>(null);
@@ -19,7 +52,7 @@ export default function Footer() {
   return (
     <footer ref={ref} className="bg-deep p-3 md:p-5">
       <div className="overflow-hidden bg-ink px-4 pt-14 md:px-6 md:pt-20">
-        <div className="grid gap-10 md:grid-cols-5">
+        <div className="grid gap-10 md:grid-cols-6">
           <p className="max-w-[260px] text-sm text-fog md:col-span-2">
             Simple clothes that look good and feel good. New drops every week.
           </p>
@@ -28,10 +61,16 @@ export default function Footer() {
               <p className="label mb-4">{c.title}</p>
               <ul className="space-y-2.5">
                 {c.links.map((l) => (
-                  <li key={l}>
-                    <a href="#" className="text-sm text-white/80 transition-colors hover:text-lime">
-                      {l}
-                    </a>
+                  <li key={l.label}>
+                    {l.to ? (
+                      <Link to={l.to} className={cls}>
+                        {l.label}
+                      </Link>
+                    ) : (
+                      <a href={l.href} className={cls}>
+                        {l.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -46,9 +85,19 @@ export default function Footer() {
           KYRO
         </motion.p>
       </div>
-      <p className="px-1 pt-4 text-center text-[11px] text-white/40">
-        © 2027 KYRO. All rights reserved.
-      </p>
+
+      <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 px-1 pt-4 text-[11px] text-white/40">
+        <span>© 2027 KYRO. All rights reserved.</span>
+        <Link to="/privacy" className="hover:text-white">Privacy</Link>
+        <Link to="/terms" className="hover:text-white">Terms</Link>
+        <Link to="/cookies" className="hover:text-white">Cookies</Link>
+        <button
+          onClick={() => window.dispatchEvent(new Event("kyro:cookies"))}
+          className="hover:text-white"
+        >
+          Cookie settings
+        </button>
+      </div>
     </footer>
   );
 }

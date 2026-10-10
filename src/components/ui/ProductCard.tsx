@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fadeUp } from "../../lib/motion";
 import { pic, type Slot } from "../../data/images";
 
-type Props = { name: string; price: number; note: string; slot: Slot };
+type Props = { id: string; name: string; price: number; note: string; slot: Slot };
 
-export default function ProductCard({ name, price, note, slot }: Props) {
+export default function ProductCard({ id, name, price, note, slot }: Props) {
   const src = pic(slot, 700);
 
   return (
@@ -20,7 +21,10 @@ export default function ProductCard({ name, price, note, slot }: Props) {
         <p className="text-[15px] font-medium text-ink">${price.toFixed(2)}</p>
       </div>
 
-      <div className="relative mt-4 aspect-[4/5] overflow-hidden rounded-xl bg-[#EEF5F7]">
+      <Link
+        to={"/product/" + id}
+        className="relative mt-4 block aspect-[4/5] overflow-hidden rounded-xl bg-[#EEF5F7]"
+      >
         {src ? (
           <img
             src={src}
@@ -31,13 +35,13 @@ export default function ProductCard({ name, price, note, slot }: Props) {
         ) : (
           <div className="h-full w-full bg-[radial-gradient(70%_60%_at_50%_35%,#FFFFFF,transparent),linear-gradient(180deg,#EEF5F7,#DCEBEF)]" />
         )}
-      </div>
+      </Link>
 
-      <a
-        href="#"
+      <Link
+        to={"/product/" + id}
         className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-ink/70 transition-colors hover:text-ink"
       >
-        Checkout now
+        View item
         <svg
           width="12"
           height="12"
@@ -51,7 +55,7 @@ export default function ProductCard({ name, price, note, slot }: Props) {
         >
           <path d="M5 12h14M13 6l6 6-6 6" />
         </svg>
-      </a>
+      </Link>
     </motion.article>
   );
 }

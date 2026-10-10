@@ -1,25 +1,31 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Reveal from "../ui/Reveal";
+import { useCart } from "../../context/CartContext";
 import { pic, type Slot } from "../../data/images";
 import { trending } from "../../data/products";
 import { fadeUp, stagger } from "../../lib/motion";
 
 function Tile({
+  id,
   name,
   sub,
   price,
   slot,
 }: {
+  id: string;
   name: string;
   sub: string;
   price: number;
   slot: Slot;
 }) {
+  const { add } = useCart();
   const src = pic(slot, 700);
 
   return (
     <motion.article variants={fadeUp} className="group">
       <div className="relative aspect-square overflow-hidden rounded-xl bg-[#EEF1F2]">
+        <Link to={"/product/" + id} aria-label={name} className="absolute inset-0 z-10" />
         {src ? (
           <img
             src={src}
@@ -31,14 +37,19 @@ function Tile({
           <div className="h-full w-full bg-[radial-gradient(65%_55%_at_50%_40%,#FFFFFF,transparent)]" />
         )}
 
-        <button className="absolute inset-x-3 bottom-3 translate-y-[140%] rounded-full bg-ink py-2.5 text-[11px] uppercase tracking-[0.18em] text-white transition-transform duration-500 ease-out group-hover:translate-y-0">
+        <button
+          onClick={() => add(id)}
+          className="absolute inset-x-3 bottom-3 z-20 translate-y-0 rounded-full bg-ink py-2.5 text-[11px] uppercase tracking-[0.18em] text-white transition-transform duration-500 ease-out md:translate-y-[140%] md:group-hover:translate-y-0"
+        >
           Add to bag +
         </button>
       </div>
 
       <div className="mt-3 flex items-start justify-between gap-3 px-1">
         <div>
-          <h3 className="text-[13px] font-medium md:text-sm">{name}</h3>
+          <h3 className="text-[13px] font-medium md:text-sm">
+            <Link to={"/product/" + id} className="hover:underline">{name}</Link>
+          </h3>
           <p className="mt-0.5 text-[11px] text-ink/50">{sub}</p>
         </div>
         <p className="text-[13px] font-medium md:text-sm">${price.toFixed(2)}</p>

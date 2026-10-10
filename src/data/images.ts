@@ -1,17 +1,21 @@
 import { img } from "../lib/motion";
+import { picked } from "./picked";
 
-// Paste Unsplash ids here later, like "photo-1234567890-abcdef".
-// Empty ones show a clean silhouette so the page always looks finished.
-const ids = {
-  hero: "",
-  look1: "", look2: "", look3: "", look4: "",
-  top1: "", top2: "", top3: "", top4: "", top5: "", top6: "",
-  style1: "", style2: "",
-  trend1: "", trend2: "", trend3: "", trend4: "", trend5: "", trend6: "",
-  work1: "", work2: "",
-};
+const keys = [
+  "hero",
+  "look1", "look2", "look3", "look4",
+  "top1", "top2", "top3", "top4", "top5", "top6",
+  "style1", "style2",
+  "trend1", "trend2", "trend3", "trend4", "trend5", "trend6",
+  "work1", "work2",
+] as const;
 
-export type Slot = keyof typeof ids;
+export type Slot = (typeof keys)[number];
+
+// Filled automatically by tools/fetch-images.cjs. Empty slots show a silhouette.
+const ids = Object.fromEntries(
+  keys.map((k) => [k, picked[k] ?? ""])
+) as Record<Slot, string>;
 
 type Kind = "dress" | "tee" | "hoodie" | "jacket" | "pants" | "person";
 
@@ -39,17 +43,18 @@ const art = (key: Slot) => {
   const isHero = key === "hero";
   const dark = key.startsWith("top") || key.startsWith("trend");
   const fill = dark ? "#14171B" : "#FFFFFF";
-  const glow = dark ? "#FFFFFF" : "#FFFFFF";
   const body = shapes[kinds[key]];
   const vb = isHero ? "0 0 1600 900" : "0 0 400 500";
   const inner = isHero
     ? `<g transform="translate(540 0) scale(1.8)">${body}</g>`
     : body;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}"><defs><radialGradient id="g" cx="50%" cy="38%" r="60%"><stop offset="0" stop-color="${glow}" stop-opacity="${dark ? 0.9 : 0.3}"/><stop offset="1" stop-color="${glow}" stop-opacity="0"/></radialGradient></defs><rect width="100%" height="100%" fill="url(#g)"/><g fill="${fill}" fill-opacity="${dark ? 0.92 : 0.88}">${inner}</g></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}"><defs><radialGradient id="g" cx="50%" cy="38%" r="60%"><stop offset="0" stop-color="#FFFFFF" stop-opacity="${dark ? 0.9 : 0.3}"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="100%" height="100%" fill="url(#g)"/><g fill="${fill}" fill-opacity="${dark ? 0.92 : 0.88}">${inner}</g></svg>`;
 };
 
-export const pic = (key: Slot, w = 900) =>
-  ids[key]
+export const pic = (key: Slot, w = 900): string =>
+  key === "hero" && !ids.hero
+    ? ""
+    : ids[key]
     ? img(ids[key], w)
     : `data:image/svg+xml;charset=utf-8,${encodeURIComponent(art(key))}`;

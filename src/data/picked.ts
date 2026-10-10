@@ -1,0 +1,23 @@
+export const picked: Record<string, string> = {
+  "hero": "photo-1554967769-1f961137e9c1",
+  "look1": "photo-1552923410-f561a49581c4",
+  "look2": "photo-1595777457583-95e059d581b8",
+  "look3": "photo-1556437298-3c544908b65c",
+  "look4": "photo-1708363390847-b4af54f45273",
+  "top1": "photo-1762708547870-08a94eeca1ef",
+  "top2": "photo-1618354691229-88d47f285158",
+  "top3": "photo-1765365353702-cf4f189bbf21",
+  "top4": "photo-1527719327859-c6ce80353573",
+  "top5": "photo-1594587639708-095eb3778067",
+  "top6": "photo-1711355249709-1733df63e028",
+  "style1": "photo-1783883933024-a22dcd0978ad",
+  "style2": "photo-1761744765482-a6890d814cca",
+  "trend1": "photo-1581655353564-df123a1eb820",
+  "trend2": "photo-1750390200293-92d5a788d3a2",
+  "trend3": "photo-1789110854262-ec66f0648ec7",
+  "trend4": "photo-1755098452363-71404ec07171",
+  "trend5": "photo-1635715390924-3936ee04f584",
+  "trend6": "photo-1593030942428-a5451dca4b42",
+  "work1": "photo-1699538366592-de394493893a",
+  "work2": "photo-1548624313-0396c75e4b1a"
+};
